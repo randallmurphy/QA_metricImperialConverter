@@ -76,77 +76,36 @@
 //   });
 // };
 
-// const ConvertHandler = require('../controllers/convertHandler.js');
-// const convertHandler = new ConvertHandler();
-// module.exports = function (app) {
-  
-
-//   app.get('/api/convert', (req, res) => {
-//     const input = req.query.input;
-//     const initNum = convertHandler.getNum(input);
-//     const initUnit = convertHandler.getUnit(input);
-
-//     if (initNum === "invalid number" && initUnit === "invalid unit") {
-//       return res.send("invalid number and unit");
-//     }
-//     if (initNum === "invalid number") {
-//       return res.send("invalid number");
-//     }
-//     if (initUnit === "invalid unit") {
-//       return res.send("invalid unit");
-//     }
-
-//     const returnNum = convertHandler.convert(initNum, initUnit);
-//     const returnUnit = convertHandler.getReturnUnit(initUnit);
-//     const string = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
-
-//     return res.json({
-//       initNum,
-//       initUnit,
-//       returnNum,
-//       returnUnit,
-//       string
-//     });
-//   });
-// };
-
-
 const ConvertHandler = require('../controllers/convertHandler.js');
 const convertHandler = new ConvertHandler();
-
-module.exports = function(app) {
+module.exports = function (app) {
   
-  app.route('/api/convert')
-    .get(function(req, res) {
-      const input = req.query.input;
 
-      const num = convertHandler.getNum(input);
-      const unit = convertHandler.getUnit(input);
+  app.get('/api/convert', (req, res) => {
+    const input = req.query.input;
+    const initNum = convertHandler.getNum(input);
+    const initUnit = convertHandler.getUnit(input);
 
-      if (unit === 'invalid unit') {
-        return res.json({ error: 'invalid unit' });
-      }
+    if (initNum === "invalid number" && initUnit === "invalid unit") {
+      return res.send("invalid number and unit");
+    }
+    if (initNum === "invalid number") {
+      return res.send("invalid number");
+    }
+    if (initUnit === "invalid unit") {
+      return res.send("invalid unit");
+    }
 
-      if (num === 'invalid number') {
-        return res.json({ error: 'invalid number' });
-      }
+    const returnNum = convertHandler.convert(initNum, initUnit);
+    const returnUnit = convertHandler.getReturnUnit(initUnit);
+    const string = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
 
-      const returnUnit = convertHandler.getReturnUnit(unit);
-      const returnNum = convertHandler.convert(num, unit);
-
-      // If there's an error with the number or unit, return the appropriate message
-      if (returnUnit === 'invalid unit' || isNaN(returnNum)) {
-        return res.json({ error: 'invalid number and unit' });
-      }
-
-      const result = convertHandler.getString(num, unit, returnNum, returnUnit);
-
-      res.json({
-        initNum: num,
-        initUnit: unit,
-        returnNum: returnNum,
-        returnUnit: returnUnit,
-        string: result
-      });
+    return res.json({
+      initNum,
+      initUnit,
+      returnNum,
+      returnUnit,
+      string
     });
+  });
 };
