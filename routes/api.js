@@ -72,6 +72,6 @@ module.exports = function (app) {
       returnNum,
       returnUnit,
       string
-    });
+  });
   });
 };
