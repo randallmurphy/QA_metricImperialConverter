@@ -179,7 +179,7 @@ module.exports = function (app) {
     if (process.env.NODE_ENV === 'test') {
       return next();
     } else {
-      res.json([{ status: 'ready' }]);
+      res.json({ status: 'ready' });
     }
   },
   function(req, res, next) {
