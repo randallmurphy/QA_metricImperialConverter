@@ -81,10 +81,11 @@ suite("Functional Tests", function () {
             assert.equal(res.body.returnUnit, "lbs");
             done();
           });
-          after(function() {
-            chai.request(server)
-              .get('/')
-          });
+         
+      });
+      after(function() {
+        chai.request(server)
+          .get('/')
       });
     });
   });
