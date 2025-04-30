@@ -80,14 +80,16 @@ suite("Functional Tests", function () {
             assert.approximately(res.body.returnNum, 2.20462, 0.1);
             assert.equal(res.body.returnUnit, "lbs");
             done();
+            after(function() {
+              chai.request(server)
+                .get('/')
+            });
           });
          
       });
-      after(function() {
-        chai.request(server)
-          .get('/')
-      });
+      
     });
+   
   });
 });
 
