@@ -59,18 +59,18 @@ module.exports = function (app) {
     });
     
   let error;
-  app.get('/_api/get-tests', cors(), function(req, res, next){
-    console.log(error);
-    if(!error && process.env.NODE_ENV === 'test') return next();
-    res.json({status: 'unavailable'});
+  app.get('/_api/get-tests', cors(), function (req, res, next) {
+    console.log("Runner report:", runner.report); // Add this line to log runner.report
+    if (!runner.report && process.env.NODE_ENV === 'test') return next();
+    res.json({ status: 'unavailable' });
   },
-  function(req, res, next){
-    if(!runner.report) return next();
+  function (req, res, next) {
+    if (!runner.report) return next();
     res.json(testFilter(runner.report, req.query.type, req.query.n));
   },
-  function(req, res){
-    runner.on('done', function(report){
-      process.nextTick(() =>  res.json(testFilter(runner.report, req.query.type, req.query.n)));
+  function (req, res) {
+    runner.on('done', function (report) {
+      process.nextTick(() => res.json(testFilter(runner.report, req.query.type, req.query.n)));
     });
   });
   app.get('/_api/app-info', function(req, res) {
